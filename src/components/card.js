@@ -1,3 +1,6 @@
+import axios from "axios"
+
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,7 +20,39 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  
+  
+  let divCard = document.createElement("div")
+  let divHeadline = document.createElement('div')
+  let divAuthor = document.createElement('div')
+  let divImg = document.createElement("div")
+  let imgTag = document.createElement("img")
+  let spanAuthorName = document.createElement("span")
+
+  divCard.classList.add("card")
+  divHeadline.classList.add("headline")
+  divHeadline.textContent = article.divHeadline
+  divAuthor.classList.add("author")               
+  divHeadline.textContent = article.headline
+  divImg.classList.add("img-container")
+  imgTag.src = article.authorPhoto
+  spanAuthorName.textContent = `By ${article.authorName}`
+  
+  divCard.appendChild(divHeadline)
+  divCard.appendChild(divAuthor)
+  divAuthor.appendChild(divImg)
+  divImg.append(imgTag)
+  divAuthor.appendChild(spanAuthorName)
+
+  divCard.addEventListener('click', () => {
+    console.log(article.headline)
+  })
+  return divCard
 }
+
+Card({"headline":"Bootstrap 5: Get a Sneak Peak at all the New Features",
+"authorPhoto": "https://tk-assets.lambdaschool.com/1891c758-b3f4-4ec7-9d88-590bf7c7ceb2_fido.jpg",
+"authorName": "FIDO WALKSALOT"})
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -28,6 +63,30 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  const apiURL = "http://localhost:5000/api/articles"
+  const filterText = "articles"
+  
+  axios.get(apiURL)
+  .then(resp => {
+      
+      const articles = resp.data.articles
+      const topic_keys = Object.keys(resp.data.articles)
+
+      topic_keys.forEach(topic => {
+        articles[topic].forEach(article => {
+          document.querySelector(selector).appendChild(Card(article))
+        })
+      })
+      
+    })
+    .catch(err => {
+      console.error(err)
+    })
+
+    // const appendCard = Card(article)
+    //     document.querySelector(selector).appendChild(appendCard)
 }
+
 
 export { Card, cardAppender }
