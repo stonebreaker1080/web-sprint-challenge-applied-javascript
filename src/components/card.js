@@ -64,7 +64,7 @@ const cardAppender = (selector) => {
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
 
-  const apiURL = "http://localhost:5000/api/articles"
+  const apiURL = "http://localhost:5001/api/articles"
   const filterText = "articles"
   
   axios.get(apiURL)
@@ -84,7 +84,7 @@ const cardAppender = (selector) => {
       console.error(err)
     })
 
-    // const appendCard = Card(article)
+    // const appendCard = Card(articles)
     //     document.querySelector(selector).appendChild(appendCard)
 }
 
